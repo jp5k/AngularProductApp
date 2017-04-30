@@ -5,12 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { StarComponent } from './star.component';
 
 @NgModule({
-    declarations: [ StarComponent ],
-    imports: [ CommonModule ],
-    exports: [
-        CommonModule,
-        FormsModule,
-        StarComponent
-    ]
+  imports: [ CommonModule],
+  exports : [
+    CommonModule,
+    FormsModule,
+    StarComponent
+  ],
+  declarations: [ StarComponent ],
 })
 export class SharedModule { }

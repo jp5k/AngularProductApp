@@ -1,3 +1,4 @@
+/* Defines the product entity */
 export interface IProduct {
     productId: number;
     productName: string;

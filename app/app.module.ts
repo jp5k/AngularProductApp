@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent }  from './app.component';
 import { WelcomeComponent } from './home/welcome.component';
+
+/* Feature Modules */
 import { ProductModule } from './products/product.module';
 
 @NgModule({

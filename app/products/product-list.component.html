@@ -2,6 +2,8 @@
     <div class='panel-heading'>
         {{pageTitle}}
     </div>
+
+    <!-- Filter the Products   -->
     <div class='panel-body'>
         <div class='row'>
             <div class='col-md-2'>Filter by:</div>
@@ -9,11 +11,14 @@
                 <input type='text' [(ngModel)]='listFilter' />
             </div>
         </div>
-        <div class='row'>
+        <div class='row' *ngIf='listFilter'>
             <div class='col-md-6'>
                 <h3>Filtered by: {{listFilter}} </h3>
             </div>
         </div>
+
+        <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
+
         <div class='table-responsive'>
             <table class='table'
                    *ngIf='products && products.length'>
@@ -36,22 +41,23 @@
                     <tr *ngFor='let product of products | productFilter:listFilter'>
                         <td>
                             <img *ngIf='showImage'
-                                [src]='product.imageUrl'
-                                [title]='product.productName'
-                                [style.width.px]='imageWidth'
-                                [style.margin.px]='imageMargin'>
+                                 [src]='product.imageUrl'
+                                 [title]='product.productName | uppercase'
+                                 [style.width.px]='imageWidth' 
+                                 [style.margin.px]='imageMargin'>
                         </td>
                         <td><a [routerLink]="['/product', product.productId]">
                             {{product.productName}}
-                        </a></td>
+                            </a>
+                        </td>
                         <td>{{ product.productCode | lowercase }}</td>
                         <td>{{ product.releaseDate }}</td>
-                        <td>{{ product.price | currency:'USD':true:'1.2-2'}}</td>
+                        <td>{{ product.price | currency:'USD':true:'1.2-2' }}</td>
                         <td>
                             <ai-star [rating]='product.starRating'
-                                (ratingClicked)='onRatingClicked($event)'>
+                                    (ratingClicked)='onRatingClicked($event)'>
                             </ai-star>
-                        </td>
+                       </td>
                     </tr>
                 </tbody>
             </table>
