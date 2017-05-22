@@ -216,7 +216,9 @@ A class commits to supporting the specification by implementing the interface.  
 
 Interfaces are development time only (not found in javascript).  ONLY USED FOR STRONG TYPING.
 
-An example --- export interface IProduct {
+An example ---  
+
+			export interface IProduct {
 					
                       product Id : number ;
 					                                  
@@ -392,14 +394,121 @@ Register 'RouterModule' in app.module.ts in imports array.
 
 RouterModule.forRoot([]) sets up all the routers that we need.  **(array of routes, pass in our routes here !!! **
   
+Configure routes = {path:'products',Component:ProductListComponent},
+
+use parameters using 'product/:id' for example
+
+**SEE CONFIGURING ROUTES SLIDE !!!! IMPORTANT!!!! match these up to app.module.ts**
+
+In index html, need to set base tag <base href = "/">  
+
+Tying routest to actions - can use option, link, image etc... Can type the URL in address bar/bookmark.  Can click forward or back buttons.  Angular will do this automatically.
+
+Use routerLink to each 'a' tag in template within component.  
+
+Need to use <router-outlet> to actually place a view.  Do this within the template.  Within component.  
+
+**Checklist**
+
+1) Nestable components -> Define a selector (provides name of directive)  Thus NO route, as component is nested in another.  
+
+2) Routed components (designed for components which should be a view in our application).  No selector.  Configure routes (and tie these to actions).
+
+Routing - configure routes. Tie routes to actions.  Place the view.  
+
+Add RouterOutlet directive.  Identifies where to display the routed components view.  Specified in the host component's template.  
+
+Add RouterLink directive as an attribute.  Clickable element.  Bind to a link parameters array.  
+
+a) Define base element.
+
+b) Add RouterModule (add each route to array using RouterModule.forRoot)
+
+**order matters** Path:url segment for the route - no leading slash '' for default route   '*' for wildcard route
 
 
+## Chapter 12 - Advanced Routing (pass parameters, routing through code, guards)
+
+**Passing parameters** - use /:id   (parameter value in our route)
+
+Within the routerLink, pass in the required parameter.  
+
+Use snapshot **OR** observable to get parameter from URL  (observable good if need to scroll through different items on same page)
+
++ is shortcut in .js to convert string to numeric ID
+
+**Active route with code** Use for example on a save button when need to save data, then route.  or to pre-load data to a route.   
+
+Import the Router Service.  Define dependency on router service using a private constructor argument.  Router interface is therefore injected into class.
+
+this._router.navigate(['/products']);
+
+**Guards** - limiting access to routers (e.g. admin access, or asking user if they want to navigate away from page)
+
+a) CanActivate (guard navigation to a route)
+
+b) CanDeactivate (guard navigation from a route)
+
+c) Resolve (pre-fetch data before activating a route)
+
+d) CanLoad - prevent asynchronous routing 
+
+(a) from above was covered in the course.  Do this in the usual way: define a class, add the decorator, import what we need (as a SERVICE)
+
+Use the @Injectable service.  Implements CanActivate.
+
+See ProductDetailGuard (i.e. product-guard-service.ts  to see an example of this, where we don't want invalid URLs
+
+canActivate(): boolean     Register in app.module.ts
+
+Add the canActivate() method within the RouterModule.forRoot() of where the routings are defined.
+
+Use ActivatedRouteSnapshot to get data from URL at that point in time.  
+
+Always need to Register the guard service provider.  **MUST BE REGISTERED IN ANGULAR MODULE, NOT A COMPONENT.  THIS IS BECAUSE IT NEEDS ROUTING OVERARCHING DETAIL ** 
+
+**Remember html *ngIf trick at top of template to delay page load if getting binding errors when page loads before data is bound.  See example in product-detail.component.html  
+
+*ngIf = 'product' (makes sure product is loaded before page loads)
 
 
+## Chapter 13 - Angular Modules
+	
+Module is a class with an NgModule decorator.
+
+It organizes the application into blocks / External capabilities from external libraries / Aggregate and re-export e.g. HttpModule, RouterModule
+
+Module declares components/directives/pipes.  Bootstraps our initial component.  
+
+Exports modules, components and pipes, meaning they are available for other modules to use.  
+
+Imports modules too.  Can register services.  Think of it as a **BOX**
+
+Importing a module brings in functionality exported by that module.  
+
+app.module.ts   <-- Root module, by convention called app.module 
 
 
+** Bootstrap Array Truths **
+1. Every application must bootstrap at least one component, the root application component.
+2. The bootstrap array should only be used in the root application module, AppModule (i.e not in any other modules)
 
+** Declarations Array Truths (use the declarations array to define components, directives)  **
+1. Every component, directive and pipe we create must belong to one and only one module.
+2. Only  declare components, directives and pipes (NOT classes, services or other modules)
+3. Never re-declare components, directives or pipes that belong to antoher module.
+4. All declared components, directives and pipes are private by default.  They are only accessible to other components, directives and pipes declared in the same module.  
+5. The Angular module provides the template resolution environment for its component templates.  
 
+** Exports Array Truths (allows components, directives and pipes to be shared with other modules.  Can also rexport @angular modules and 3rd party modules, and our own modules ) **
+1. Export any component, directive, or pipe if another component needs it
+2. Re-export modules to re-export their components, directives and pipes
+3. We can re-export something without importing it first
+4. Never export a service (these should be put in services array at root module so they cna be injected anywhere in application)
+
+** Imports Array Truths (extend capabilities from other angular modules.  Import modules which give us components, directives and pipes e.g. FormsModule, HttpModule, 3rd party modules **
+1. Importing
+ 
 
 
 
