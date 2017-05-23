@@ -507,8 +507,42 @@ app.module.ts   <-- Root module, by convention called app.module
 4. Never export a service (these should be put in services array at root module so they cna be injected anywhere in application)
 
 ** Imports Array Truths (extend capabilities from other angular modules.  Import modules which give us components, directives and pipes e.g. FormsModule, HttpModule, 3rd party modules **
-1. Importing
- 
+1. Importing a module makes available any exported components, directives and pipes from that module.
+2. Only import what this module needs.
+3. Importing a module does not provide access to its imported modules. (i.e imports are **NOT** inherited
+
+**THINK OF A MODULE AS A BOX NOT A TREE STRUCTURE **
+
+** Providers Array Truths (register services at the module level (such as ProductDetailGuard) **
+1. Any service provider added to the providers array is registered at the **root** of the application and is available to any class.  
+So... need to be careful here.  If added to a module declarations array, then it will be accessible to **all** classes in the application.    If want it to only be in the component (or set of components) define it in the **components providers array**
+2. Don't add services to the providers array of a shared module .  There should only be **one** instance of a singleton service.  Consider building a CoreModule for services and importing it once in the AppModule.  This will help ensure the services will only be registered once in AppModule.  
+3. Routing Guards must be added to the providers array of an Angular Module.  
+
+** Feature Modules (separation of concerns e.g. ProductModule, adding the ProductList and ProductDetailComponents**
+1. BrowserModule should only be pulled into root application.  moduleOnly (appModule).  Import CommonModule - this exposes ngFor and ngIf
+
+We define ProductService and Product Detail Guard within the ProductModule to keep the code consistent, even though the services will be available to all of the application.  
+
+We then import the ProductModule into the AppModule in the import array:  
+
+forRoot  (rooting in app module (or refactored module, BUT USE ONLY ONCE !!)
+
+forChild (rooting in feature module)
+
+**Shared Modules (Organise set of commonly used pieces into one module, and export those pieces so that they can be imported into any module that needs it.  Selectively aggregate shared pieces, e.g. star component**
+
+**AppModule - used to orchestrate the application as a whole**
+Needs BrowserModule as an import and HTTPModule.  Also import router module, and configure the roots for the application - configure the roots and the wildcards.
+Also, import the productModule.  Declarations declare the components which are declared in the app module.  Also declares the bootstrap array [AppComponent] - when application loads it launches this bootstrapped AppComponent.  
+
+We could also refactor the application routing module.  
+
+CoreModules --> set of services which need to be loaded when app is loaded.  Be sure this is loaded ONLY once in core application module.  
+
+** EXCELLENT DIAGRAM IN THIS PROJECT, ANGULAR MODULE LAYOUT.png  and Angular MODULE LAYOUT 2 ,  SUMS UP MODULE LAYOUT WELL!!!! **
+
+## Chapter 14 - Setup Revisited 
 
 
 
