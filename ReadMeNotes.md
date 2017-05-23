@@ -543,7 +543,50 @@ CoreModules --> set of services which need to be loaded when app is loaded.  Be 
 ** EXCELLENT DIAGRAM IN THIS PROJECT, ANGULAR MODULE LAYOUT.png  and Angular MODULE LAYOUT 2 ,  SUMS UP MODULE LAYOUT WELL!!!! **
 
 ## Chapter 14 - Setup Revisited 
+**tsconfig.json typescript compiler config file**  Presence of this file indicates the root of the application.
 
+"target":"es5"  Map files help with debugging 
 
+d.ts  = typescript definition file
+
+typings.json = has global dependencies (for libraries that don't provide a type definition file )
+
+**package.json** (insight into npm packaging)
+
+application name, description, author, etc   scripts/dependencies/devdependencies  are the 3 key parts to the file.
+
+dependencies = libraries the application needs to run  --> twitter bootstrap, rxjs, etc...
+
+devDependencies = additional for development   typescript/typings/lite-server etc...
+
+npm install uses the dependencies and gets all the libraries it needs.
+
+npm start will compile AND start the lite-server
+
+System.config.js --> configures the system.js (an es file loader, that automatically loads the files for our application which means we don't need script tags for every file in our application).
+
+paths: defines alias where system files are located.
+
+app: Defines where all angular bundles are located.
+
+packages: defines which class to bootstrap first (main.js) in our example.
+
+**index.html** -> script tages load some important libraries
+
+shim.min.js is for core .js  (es2015 capabilities)
+
+zone.js for data binding
+
+reflect.js --> for reading decorator metadata
+
+**bootstrap process** --> main.ts  file bootstraps the application  using dynamic bootstrapping and JIT compiler  (could use AOT ahead of time compiler) for mobile devices.
+
+Angular CLI --> a command line interface for Angular
+
+ng new APM (Creates a working Angular application with all required starter files)
+
+ng g Component product-list  = creates new component to product-list  AND MUCH MORE  - unit and end to end tests see [this link](https://cli.angular.io/) 
+
+Also, components, pipes, directives, services.  
 
 
